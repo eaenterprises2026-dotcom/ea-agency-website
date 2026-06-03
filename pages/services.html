@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — EA Enterprises AI Agency</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <style>
+    /* ── HERO ── */
+    .services-hero {
+      padding: 100px 5% 70px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .services-hero .orb-blue  { top: -80px; right: 5%; }
+    .services-hero .orb-purple { bottom: -100px; left: -50px; }
+    .services-hero h1 { margin: 1rem 0 1.25rem; }
+    .services-hero p  { color: var(--text-muted); max-width: 560px; margin: 0 auto; font-size: 1.05rem; }
+
+    /* ── SERVICE CARDS ── */
+    .services-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .svc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.25rem 2.5rem;
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      gap: 1.75rem;
+      align-items: start;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+
+    .svc-card:hover {
+      border-color: rgba(0,170,255,0.35);
+      box-shadow: var(--glow);
+      transform: translateY(-3px);
+    }
+
+    .svc-icon {
+      width: 58px; height: 58px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(0,170,255,0.12), rgba(139,92,246,0.12));
+      border: 1px solid rgba(0,170,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .svc-body { min-width: 0; }
+    .svc-body h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+    .svc-body p  { color: var(--text-muted); font-size: 0.9rem; line-height: 1.65; margin-bottom: 1rem; }
+
+    .svc-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .svc-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.25rem 0.7rem;
+      border-radius: 50px;
+      background: rgba(0,170,255,0.08);
+      border: 1px solid rgba(0,170,255,0.18);
+      color: var(--accent-blue);
+    }
+
+    .svc-action {
+      display: flex;
+      align-items: flex-start;
+      padding-top: 4px;
+      flex-shrink: 0;
+    }
+
+    /* ── PROCESS ── */
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+
+    .process-step {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      position: relative;
+      text-align: center;
+    }
+
+    .process-num {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--accent-blue);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .process-step h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+    .process-step p  { color: var(--text-muted); font-size: 0.82rem; line-height: 1.55; }
+
+    .process-connector {
+      position: absolute;
+      top: 50%;
+      right: -14px;
+      transform: translateY(-50%);
+      color: var(--accent-blue);
+      font-size: 1.2rem;
+      z-index: 2;
+    }
+
+    /* ── CTA ── */
+    .cta-band {
+      background: linear-gradient(135deg, rgba(0,170,255,0.07), rgba(139,92,246,0.07));
+      border-top: 1px solid var(--border);
+      padding: 80px 5%;
+      text-align: center;
+    }
+    .cta-band h2 { margin-bottom: 1rem; }
+    .cta-band p  { color: var(--text-muted); max-width: 480px; margin: 0 auto 2rem; }
+
+    @media (max-width: 900px) {
+      .process-grid { grid-template-columns: repeat(2, 1fr); }
+      .process-connector { display: none; }
+    }
+    @media (max-width: 700px) {
+      .svc-card { grid-template-columns: 58px 1fr; }
+      .svc-action { display: none; }
+      .process-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><div class="logo-accent"></div>EA</a>
+    <div class="nav-links" id="navLinks">
+      <a href="../index.html">Home</a>
+      <a href="services.html" class="active">Services</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="contact.html" class="btn btn-primary" style="margin-left:0.5rem;">Get Started</a>
+    </div>
+    <div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+
+  <!-- HERO -->
+  <section class="services-hero">
+    <div class="orb orb-blue"></div>
+    <div class="orb orb-purple"></div>
+    <div class="section-label">What We Offer</div>
+    <h1>Services That <span class="gradient-text">Move the Needle</span></h1>
+    <p>Every service is tailored to your business — not copy-pasted. We build what you actually need, then make it work.</p>
+  </section>
+
+  <!-- SERVICES LIST -->
+  <section style="padding: 10px 5% 80px;">
+    <div class="container">
+      <div class="services-list">
+
+        <div class="svc-card fade-up">
+          <div class="svc-icon">⚡</div>
+          <div class="svc-body">
+            <h3>AI Workflow Automation</h3>
+            <p>We map your current processes and build end-to-end automations that run without you. From lead follow-up to invoice generation — if it's repetitive, it gets automated.</p>
+            <div class="svc-tags">
+              <span class="svc-tag">n8n</span>
+              <span class="svc-tag">Make</span>
+              <span class="svc-tag">CRM Integration</span>
+              <span class="svc-tag">Email Automation</span>
+              <span class="svc-tag">Error Monitoring</span>
+            </div>
+          </div>
+          <div class="svc-action">
+            <a href="contact.html" class="btn btn-primary">Get Started →</a>
+          </div>
+        </div>
+
+        <div class="svc-card fade-up fade-up-delay-1">
+          <div class="svc-icon">🌐</div>
+          <div class="svc-body">
+            <h3>AI-Powered Website Development</h3>
+            <p>Fast, modern websites designed to convert. Every site we build includes a trained AI assistant, lead capture, and seamless integrations — ready to connect to your backend.</p>
+            <div class="svc-tags">
+              <span class="svc-tag">Custom Design</span>
+              <span class="svc-tag">AI Chatbot</span>
+              <span class="svc-tag">Lead Capture</span>
+              <span class="svc-tag">SEO Ready</span>
+              <span class="svc-tag">Backend Ready</span>
+            </div>
+          </div>
+          <div class="svc-action">
+            <a href="contact.html" class="btn btn-primary">Get Started →</a>
+          </div>
+        </div>
+
+        <div class="svc-card fade-up fade-up-delay-2">
+          <div class="svc-icon">🤖</div>
+          <div class="svc-body">
+            <h3>Custom AI Agent Development</h3>
+            <p>Autonomous agents that work around the clock — handling research, outreach, customer queries, and multi-step tasks with minimal human input required.</p>
+            <div class="svc-tags">
+              <span class="svc-tag">Claude / GPT-4</span>
+              <span class="svc-tag">Tool Use</span>
+              <span class="svc-tag">Memory & Context</span>
+              <span class="svc-tag">Multi-Agent</span>
+              <span class="svc-tag">API Integration</span>
+            </div>
+          </div>
+          <div class="svc-action">
+            <a href="contact.html" class="btn btn-primary">Get Started →</a>
+          </div>
+        </div>
+
+        <div class="svc-card fade-up">
+          <div class="svc-icon">📊</div>
+          <div class="svc-body">
+            <h3>Data Intelligence & Analytics</h3>
+            <p>Connect your data sources, clean the mess, and surface real insights. We build pipelines and dashboards that tell you exactly what's happening in your business — automatically.</p>
+            <div class="svc-tags">
+              <span class="svc-tag">Data Pipelines</span>
+              <span class="svc-tag">Dashboards</span>
+              <span class="svc-tag">AI Reports</span>
+              <span class="svc-tag">Predictive Models</span>
+              <span class="svc-tag">Alerts</span>
+            </div>
+          </div>
+          <div class="svc-action">
+            <a href="contact.html" class="btn btn-primary">Get Started →</a>
+          </div>
+        </div>
+
+        <div class="svc-card fade-up fade-up-delay-1">
+          <div class="svc-icon">🛡️</div>
+          <div class="svc-body">
+            <h3>AI Strategy & Consulting</h3>
+            <p>Not sure where to start? We audit your business, identify your highest-ROI AI opportunities, and hand you a clear 90-day roadmap — no fluff, just actionable steps.</p>
+            <div class="svc-tags">
+              <span class="svc-tag">Operations Audit</span>
+              <span class="svc-tag">ROI Analysis</span>
+              <span class="svc-tag">90-Day Roadmap</span>
+              <span class="svc-tag">Tool Selection</span>
+              <span class="svc-tag">Executive Presentation</span>
+            </div>
+          </div>
+          <div class="svc-action">
+            <a href="contact.html" class="btn btn-primary">Get Started →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section style="background: var(--bg-card); padding: 80px 5%;">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-label">How It Works</div>
+        <h2>Simple. Fast. <span class="gradient-text">Results-Driven.</span></h2>
+        <p>From first conversation to live system — a straightforward process built to get you results quickly.</p>
+      </div>
+      <div class="process-grid">
+        <div class="process-step fade-up">
+          <span class="process-num">STEP 01</span>
+          <h3>Discovery Call</h3>
+          <p>We learn your business, your workflows, and where you're losing time or money.</p>
+          <span class="process-connector">→</span>
+        </div>
+        <div class="process-step fade-up fade-up-delay-1">
+          <span class="process-num">STEP 02</span>
+          <h3>Custom Proposal</h3>
+          <p>You receive a clear plan with scope, timeline, and exactly what will be built for you.</p>
+          <span class="process-connector">→</span>
+        </div>
+        <div class="process-step fade-up fade-up-delay-2">
+          <span class="process-num">STEP 03</span>
+          <h3>Build & Test</h3>
+          <p>We build your system, test every piece, and keep you in the loop throughout.</p>
+          <span class="process-connector">→</span>
+        </div>
+        <div class="process-step fade-up fade-up-delay-3">
+          <span class="process-num">STEP 04</span>
+          <h3>Launch & Support</h3>
+          <p>We go live, train your team, and provide 30 days of included support post-launch.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-band">
+    <div class="container">
+      <div class="section-label" style="justify-content:center;">Let's talk</div>
+      <h2>Ready to automate and <span class="gradient-text">scale?</span></h2>
+      <p>Book a free 30-minute discovery call. No commitment — just a clear picture of what AI can do for your business.</p>
+      <a href="contact.html" class="btn btn-primary btn-lg">Book Free Discovery Call →</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="nav-logo" style="font-size:1.3rem;"><div class="logo-accent" style="height:22px;"></div>EA</div>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-copy">© 2026 EA Enterprises. All rights reserved.</div>
+    </div>
+  </footer>
+
+</div>
+<script src="../js/main.js"></script>
+<script src="../js/chatbot.js"></script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — EA Enterprises</title>
+  <style>
+    :root {
+      --bg: #050a14; --card: #0d1626; --card2: #111d33;
+      --blue: #00aaff; --purple: #8b5cf6;
+      --text: #e2e8f0; --muted: #8892a4;
+      --border: rgba(0,170,255,0.15);
+      --grad: linear-gradient(135deg, #00aaff, #8b5cf6);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* LOGIN */
+    #loginScreen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    }
+    .login-box {
+      background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+      padding: 2.5rem; width: 360px; text-align: center;
+    }
+    .login-logo { font-size: 2rem; font-weight: 900; margin-bottom: 0.25rem; }
+    .login-logo span { display: inline-block; width: 5px; height: 28px; background: var(--grad); border-radius: 3px; margin-right: 8px; vertical-align: middle; }
+    .login-sub { color: var(--muted); font-size: 0.85rem; margin-bottom: 2rem; }
+    .login-box input {
+      width: 100%; padding: 0.8rem 1rem; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text); font-size: 0.9rem; outline: none; margin-bottom: 1rem;
+      font-family: inherit;
+    }
+    .login-box input:focus { border-color: var(--blue); }
+    .login-btn {
+      width: 100%; padding: 0.85rem; background: var(--grad); border: none; border-radius: 10px;
+      color: white; font-weight: 700; font-size: 0.95rem; cursor: pointer; font-family: inherit;
+      transition: opacity 0.2s;
+    }
+    .login-btn:hover { opacity: 0.9; }
+    .login-err { color: #f87171; font-size: 0.8rem; margin-top: 0.75rem; display: none; }
+
+    /* DASHBOARD */
+    #dashboard { display: none; }
+
+    header {
+      background: rgba(5,10,20,0.9); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border); padding: 0 2rem;
+      height: 64px; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .header-logo { font-size: 1.4rem; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+    .header-logo .bar { width: 5px; height: 22px; background: var(--grad); border-radius: 3px; }
+    .header-logo small { font-size: 0.7rem; color: var(--muted); font-weight: 400; margin-left: 4px; }
+
+    .header-right { display: flex; align-items: center; gap: 1rem; }
+    .logout-btn {
+      padding: 0.4rem 1rem; background: transparent; border: 1px solid var(--border);
+      border-radius: 8px; color: var(--muted); font-size: 0.8rem; cursor: pointer; font-family: inherit;
+      transition: all 0.2s;
+    }
+    .logout-btn:hover { border-color: #f87171; color: #f87171; }
+
+    main { padding: 2rem; max-width: 1300px; margin: 0 auto; }
+
+    /* STATS BAR */
+    .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem 1.5rem;
+    }
+    .stat-card .label { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-card .value { font-size: 2rem; font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    /* TABS */
+    .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .tab {
+      padding: 0.5rem 1.25rem; border-radius: 8px; border: 1px solid var(--border);
+      background: transparent; color: var(--muted); font-size: 0.875rem; cursor: pointer;
+      font-family: inherit; transition: all 0.2s;
+    }
+    .tab.active { background: var(--grad); border-color: transparent; color: white; font-weight: 600; }
+
+    /* TABLE */
+    .table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; }
+    thead tr { background: var(--card2); }
+    th { padding: 0.9rem 1rem; text-align: left; font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+    td { padding: 0.9rem 1rem; font-size: 0.85rem; border-top: 1px solid var(--border); vertical-align: top; }
+    tr:hover td { background: rgba(0,170,255,0.03); }
+
+    .status-badge {
+      display: inline-block; padding: 0.2rem 0.65rem; border-radius: 50px;
+      font-size: 0.72rem; font-weight: 600;
+    }
+    .status-new        { background: rgba(0,170,255,0.12); color: var(--blue); }
+    .status-contacted  { background: rgba(139,92,246,0.12); color: var(--purple); }
+    .status-qualified  { background: rgba(16,185,129,0.12); color: #10b981; }
+    .status-closed     { background: rgba(251,191,36,0.12); color: #fbbf24; }
+
+    .stars-sm { color: #f59e0b; font-size: 0.8rem; }
+
+    select.status-select {
+      background: var(--card2); border: 1px solid var(--border); border-radius: 6px;
+      color: var(--text); font-size: 0.78rem; padding: 0.25rem 0.5rem; cursor: pointer;
+      font-family: inherit; outline: none;
+    }
+
+    .approve-btn {
+      padding: 0.25rem 0.7rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer;
+      font-family: inherit; border: 1px solid; transition: all 0.2s;
+    }
+    .approve-btn.yes  { background: rgba(16,185,129,0.1); color: #10b981; border-color: rgba(16,185,129,0.3); }
+    .approve-btn.no   { background: rgba(248,113,113,0.1); color: #f87171; border-color: rgba(248,113,113,0.3); }
+
+    .empty { text-align: center; padding: 3rem; color: var(--muted); font-size: 0.9rem; }
+
+    .source-chip {
+      display: inline-block; padding: 0.15rem 0.5rem; border-radius: 50px;
+      font-size: 0.68rem; font-weight: 600;
+      background: rgba(139,92,246,0.12); color: var(--purple);
+    }
+    .source-chat { background: rgba(0,170,255,0.12); color: var(--blue); }
+
+    .msg-cell { max-width: 220px; color: var(--muted); font-size: 0.8rem; line-height: 1.5; }
+
+    @media (max-width: 900px) { .stats-bar { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .stats-bar { grid-template-columns: 1fr; } main { padding: 1rem; } }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo"><span></span>EA</div>
+    <div class="login-sub">Admin Panel — EA Enterprises</div>
+    <input type="password" id="passInput" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')login()" />
+    <button class="login-btn" onclick="login()">Sign In →</button>
+    <div class="login-err" id="loginErr">Incorrect password. Try again.</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <header>
+    <div class="header-logo">
+      <div class="bar"></div>EA
+      <small>Admin Panel</small>
+    </div>
+    <div class="header-right">
+      <span id="lastRefresh" style="font-size:0.75rem;color:var(--muted);"></span>
+      <button class="logout-btn" onclick="logout()">Sign Out</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stat-card"><div class="label">Total Leads</div><div class="value" id="statTotal">—</div></div>
+      <div class="stat-card"><div class="label">New Leads</div><div class="value" id="statNew">—</div></div>
+      <div class="stat-card"><div class="label">Reviews</div><div class="value" id="statReviews">—</div></div>
+      <div class="stat-card"><div class="label">Pending Approval</div><div class="value" id="statPending">—</div></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('leads', this)">📋 Leads</button>
+      <button class="tab" onclick="showTab('reviews', this)">⭐ Reviews</button>
+    </div>
+
+    <!-- Leads Table -->
+    <div id="tab-leads" class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th><th>Name</th><th>Email</th><th>Company</th>
+            <th>Service</th><th>Budget</th><th>Source</th><th>Message</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="leadsBody"><tr><td colspan="9" class="empty">Loading...</td></tr></tbody>
+      </table>
+    </div>
+
+    <!-- Reviews Table -->
+    <div id="tab-reviews" class="table-wrap" style="display:none;">
+      <table>
+        <thead>
+          <tr><th>Date</th><th>Name</th><th>Role</th><th>Service</th><th>Rating</th><th>Review</th><th>Approved</th></tr>
+        </thead>
+        <tbody id="reviewsBody"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<script>
+  const API = 'http://localhost:3000/api/admin';
+  let password = '';
+
+  function login() {
+    const p = document.getElementById('passInput').value;
+    if (!p) return;
+    password = p;
+    loadAll();
+  }
+
+  function logout() {
+    password = '';
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('passInput').value = '';
+  }
+
+  function showTab(tab, btn) {
+    document.getElementById('tab-leads').style.display   = tab === 'leads'   ? '' : 'none';
+    document.getElementById('tab-reviews').style.display = tab === 'reviews' ? '' : 'none';
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function fmt(date) {
+    return new Date(date).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+  }
+
+  async function loadAll() {
+    try {
+      const [lRes, rRes] = await Promise.all([
+        fetch(`${API}/leads`,   { headers: { 'x-admin-password': password } }),
+        fetch(`${API}/reviews`, { headers: { 'x-admin-password': password } }),
+      ]);
+
+      if (lRes.status === 401) {
+        document.getElementById('loginErr').style.display = 'block';
+        return;
+      }
+
+      const leads   = await lRes.json();
+      const reviews = await rRes.json();
+
+      document.getElementById('loginErr').style.display = 'none';
+      document.getElementById('loginScreen').style.display  = 'none';
+      document.getElementById('dashboard').style.display    = 'block';
+      document.getElementById('lastRefresh').textContent    = 'Updated ' + new Date().toLocaleTimeString();
+
+      // Stats
+      document.getElementById('statTotal').textContent   = leads.length;
+      document.getElementById('statNew').textContent     = leads.filter(l => l.status === 'new').length;
+      document.getElementById('statReviews').textContent = reviews.length;
+      document.getElementById('statPending').textContent = reviews.filter(r => !r.approved).length;
+
+      // Leads table
+      const lb = document.getElementById('leadsBody');
+      lb.innerHTML = leads.length ? leads.map(l => `
+        <tr>
+          <td style="white-space:nowrap;">${fmt(l.created_at)}</td>
+          <td><b>${l.first_name} ${l.last_name}</b></td>
+          <td style="color:var(--blue);">${l.email}</td>
+          <td>${l.company || '—'}</td>
+          <td>${l.service || '—'}</td>
+          <td>${l.budget || '—'}</td>
+          <td><span class="source-chip ${l.source === 'chat' ? 'source-chat' : ''}">${l.source || 'form'}</span></td>
+          <td class="msg-cell">${(l.message || '').slice(0, 80)}${l.message?.length > 80 ? '…' : ''}</td>
+          <td>
+            <select class="status-select" onchange="updateLead('${l.id}', this.value)">
+              ${['new','contacted','qualified','closed'].map(s =>
+                `<option value="${s}" ${l.status===s?'selected':''}>${s}</option>`
+              ).join('')}
+            </select>
+          </td>
+        </tr>`).join('') : `<tr><td colspan="9" class="empty">No leads yet. They'll appear here when someone fills out a form or chats.</td></tr>`;
+
+      // Reviews table
+      const rb = document.getElementById('reviewsBody');
+      rb.innerHTML = reviews.length ? reviews.map(r => `
+        <tr>
+          <td style="white-space:nowrap;">${fmt(r.created_at)}</td>
+          <td><b>${r.name}</b></td>
+          <td style="color:var(--muted);">${r.role || '—'}</td>
+          <td>${r.service || '—'}</td>
+          <td class="stars-sm">${'★'.repeat(r.rating || 5)}</td>
+          <td class="msg-cell">${r.message}</td>
+          <td>
+            <button class="approve-btn ${r.approved ? 'no' : 'yes'}"
+              onclick="approveReview('${r.id}', ${!r.approved})">
+              ${r.approved ? '✓ Approved' : 'Approve'}
+            </button>
+          </td>
+        </tr>`).join('') : `<tr><td colspan="7" class="empty">No reviews yet.</td></tr>`;
+
+    } catch (err) {
+      alert('Could not connect to backend. Make sure server.js is running.');
+    }
+  }
+
+  async function updateLead(id, status) {
+    await fetch(`${API}/leads/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+      body: JSON.stringify({ status }),
+    });
+  }
+
+  async function approveReview(id, approved) {
+    await fetch(`${API}/reviews/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+      body: JSON.stringify({ approved }),
+    });
+    loadAll();
+  }
+
+  // Auto-refresh every 60 seconds when logged in
+  setInterval(() => { if (password) loadAll(); }, 60000);
+</script>
+</body>
+</html>

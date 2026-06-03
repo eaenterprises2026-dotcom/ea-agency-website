@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — EA Enterprises AI Agency</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <style>
+    /* ── HERO ── */
+    .about-hero {
+      padding: 90px 5% 70px;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-hero .orb-blue   { top: -80px; right: -60px; }
+    .about-hero .orb-purple { bottom: -120px; left: -60px; }
+
+    .about-hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-text { position: relative; z-index: 1; }
+    .about-text h1 { margin: 1rem 0 1.5rem; }
+    .about-text p  { color: var(--text-muted); font-size: 1.03rem; margin-bottom: 1.2rem; line-height: 1.75; }
+
+    /* ── TEAM IMAGE ── */
+    .about-image-wrap {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .team-img-frame {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 2px solid rgba(0,170,255,0.25);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 50px rgba(0,170,255,0.1);
+      max-width: 460px;
+      width: 100%;
+    }
+
+    .team-img-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* Corner accent lines */
+    .team-img-frame::before,
+    .team-img-frame::after {
+      content: '';
+      position: absolute;
+      width: 40px; height: 40px;
+      border-color: var(--accent-blue);
+      border-style: solid;
+      z-index: 2;
+    }
+    .team-img-frame::before { top: 12px; left: 12px; border-width: 2px 0 0 2px; border-radius: 4px 0 0 0; }
+    .team-img-frame::after  { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; border-radius: 0 0 4px 0; }
+
+    /* ── MISSION ── */
+    .mission-section {
+      background: linear-gradient(135deg, rgba(0,170,255,0.04), rgba(139,92,246,0.04));
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 5%;
+    }
+
+    .mission-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .mission-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .mission-card:hover {
+      border-color: rgba(0,170,255,0.3);
+      transform: translateY(-3px);
+    }
+
+    .mission-card .m-icon { font-size: 1.75rem; margin-bottom: 0.9rem; display: block; }
+    .mission-card h3 { margin-bottom: 0.6rem; font-size: 1.05rem; }
+    .mission-card p  { color: var(--text-muted); font-size: 0.875rem; line-height: 1.65; }
+
+    /* ── VALUES ── */
+    .value-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .value-card:hover { border-color: rgba(0,170,255,0.3); transform: translateY(-3px); }
+    .value-card .v-icon { font-size: 1.6rem; margin-bottom: 0.85rem; display: block; }
+    .value-card h3 { font-size: 1rem; margin-bottom: 0.4rem; }
+    .value-card p  { color: var(--text-muted); font-size: 0.84rem; line-height: 1.6; }
+
+    /* ── CTA ── */
+    .cta-band {
+      background: linear-gradient(135deg, rgba(0,170,255,0.07), rgba(139,92,246,0.07));
+      border-top: 1px solid var(--border);
+      padding: 80px 5%;
+      text-align: center;
+    }
+    .cta-band h2 { margin-bottom: 1rem; }
+    .cta-band p  { color: var(--text-muted); max-width: 460px; margin: 0 auto 2rem; }
+
+    @media (max-width: 900px) {
+      .about-hero-inner { grid-template-columns: 1fr; }
+      .about-image-wrap { order: -1; }
+      .team-img-frame { max-width: 100%; }
+      .mission-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><div class="logo-accent"></div>EA</a>
+    <div class="nav-links" id="navLinks">
+      <a href="../index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="about.html" class="active">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="contact.html" class="btn btn-primary" style="margin-left:0.5rem;">Get Started</a>
+    </div>
+    <div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+
+  <!-- HERO -->
+  <section class="about-hero">
+    <div class="orb orb-blue"></div>
+    <div class="orb orb-purple"></div>
+    <div class="about-hero-inner">
+
+      <div class="about-text fade-up">
+        <div class="section-label">About Us</div>
+        <h1>The AI team built to <span class="gradient-text">grow with you</span></h1>
+        <p>EA Enterprises was built on one idea: businesses of every size should have access to the same AI power that Fortune 500 companies use. We make that real — without the enterprise price tag or the bloated process.</p>
+        <p>We're a lean, focused team of AI builders and business strategists. We don't just hand you software. We understand your workflow, build what fits, and stay with you as you scale.</p>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:2rem;">
+          <a href="contact.html" class="btn btn-primary btn-lg">Work With Us</a>
+          <a href="services.html" class="btn btn-outline btn-lg">View Services</a>
+        </div>
+      </div>
+
+      <div class="about-image-wrap fade-up fade-up-delay-2">
+        <div class="team-img-frame">
+          <img
+            src="../images/team.jpg"
+            alt="EA Enterprises Team"
+            onerror="this.parentElement.style.minHeight='420px';this.style.display='none';"
+          />
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section class="mission-section">
+    <div style="max-width:1200px; margin:0 auto;">
+      <div class="section-header fade-up" style="margin-bottom:2.5rem;">
+        <div class="section-label">Our Mission</div>
+        <h2>What drives <span class="gradient-text">every decision</span></h2>
+      </div>
+      <div class="mission-grid">
+        <div class="mission-card fade-up">
+          <span class="m-icon">🎯</span>
+          <h3>Results Over Everything</h3>
+          <p>We measure success by what changes in your business — revenue saved, hours freed, deals closed. Technology is just the tool. Outcomes are what matter.</p>
+        </div>
+        <div class="mission-card fade-up fade-up-delay-1">
+          <span class="m-icon">🤝</span>
+          <h3>Partnership Over Transactions</h3>
+          <p>We embed in your business and think like a co-founder. Not a vendor who disappears after delivery — a partner who cares about what happens after launch.</p>
+        </div>
+        <div class="mission-card fade-up fade-up-delay-2">
+          <span class="m-icon">⚡</span>
+          <h3>Speed That Doesn't Cut Corners</h3>
+          <p>We move fast because we've done this before. From kickoff to live in 2–4 weeks — tested, documented, and built to last.</p>
+        </div>
+        <div class="mission-card fade-up fade-up-delay-3">
+          <span class="m-icon">📈</span>
+          <h3>Built to Scale</h3>
+          <p>Every system we build is designed for growth. We architect for the business you're becoming — not just the one you are today.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section style="padding: 80px 5%;">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-label">Core Values</div>
+        <h2>How we <span class="gradient-text">show up</span></h2>
+      </div>
+      <div class="grid-3">
+        <div class="value-card fade-up">
+          <span class="v-icon">🔍</span>
+          <h3>Radical Transparency</h3>
+          <p>No jargon, no smoke and mirrors. We explain what we're building and why — so you always know what you're getting.</p>
+        </div>
+        <div class="value-card fade-up fade-up-delay-1">
+          <span class="v-icon">🏆</span>
+          <h3>Obsessive Quality</h3>
+          <p>We don't ship broken systems. Every workflow is tested and every agent is validated before it goes near your business.</p>
+        </div>
+        <div class="value-card fade-up fade-up-delay-2">
+          <span class="v-icon">💡</span>
+          <h3>Always Innovating</h3>
+          <p>AI moves fast and so do we. We're always learning so our clients always have access to what's actually cutting-edge — not last year's playbook.</p>
+        </div>
+        <div class="value-card fade-up">
+          <span class="v-icon">🤲</span>
+          <h3>Client Empowerment</h3>
+          <p>We document everything and train your team. The goal is that you own what we build — not depend on us to keep the lights on.</p>
+        </div>
+        <div class="value-card fade-up fade-up-delay-1">
+          <span class="v-icon">🔒</span>
+          <h3>Data Privacy</h3>
+          <p>We treat your business data like it's our own. Secure architecture and clear data handling are non-negotiable on every project.</p>
+        </div>
+        <div class="value-card fade-up fade-up-delay-2">
+          <span class="v-icon">⚙️</span>
+          <h3>Practical Over Flashy</h3>
+          <p>We use the right tool, not the trendiest one. Reliable systems that work every day beat impressive demos that break in production.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-band">
+    <div class="container">
+      <div class="section-label" style="justify-content:center;">Let's connect</div>
+      <h2>Let's build something <span class="gradient-text">remarkable together</span></h2>
+      <p>We keep our client list focused so every project gets our full attention. Reach out and let's see if we're a fit.</p>
+      <a href="contact.html" class="btn btn-primary btn-lg">Start the Conversation →</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="nav-logo" style="font-size:1.3rem;"><div class="logo-accent" style="height:22px;"></div>EA</div>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-copy">© 2026 EA Enterprises. All rights reserved.</div>
+    </div>
+  </footer>
+
+</div>
+<script src="../js/main.js"></script>
+<script src="../js/chatbot.js"></script>
+</body>
+</html>

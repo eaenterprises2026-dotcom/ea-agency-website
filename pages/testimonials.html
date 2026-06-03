@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Testimonials — EA Enterprises AI Agency</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <style>
+    /* ── HERO ── */
+    .testi-hero {
+      padding: 100px 5% 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .testi-hero .orb-blue   { top: -80px; left: 10%; }
+    .testi-hero .orb-purple { bottom: -100px; right: 5%; }
+    .testi-hero h1 { margin: 1rem 0 1.25rem; }
+    .testi-hero p  { color: var(--text-muted); max-width: 540px; margin: 0 auto; font-size: 1.05rem; }
+
+    /* ── STAR RATING ── */
+    .stars { color: #f59e0b; font-size: 1.05rem; letter-spacing: 2px; margin-bottom: 1rem; }
+
+    /* ── TESTIMONIAL CARDS ── */
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    .testi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+
+    .testi-card:hover {
+      border-color: rgba(0,170,255,0.3);
+      box-shadow: var(--glow);
+      transform: translateY(-4px);
+    }
+
+    .testi-card.highlight {
+      border-color: rgba(0,170,255,0.35);
+      background: linear-gradient(135deg, rgba(0,170,255,0.04), rgba(139,92,246,0.04));
+    }
+
+    .quote-mark {
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--accent-blue);
+      opacity: 0.4;
+      font-family: Georgia, serif;
+    }
+
+    .testi-text {
+      color: var(--text);
+      font-size: 0.93rem;
+      line-height: 1.75;
+      flex: 1;
+      font-style: italic;
+    }
+
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .author-initials {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .author-name { font-weight: 700; font-size: 0.88rem; }
+    .author-role { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* ── FIRST REVIEW CTA ── */
+    .review-cta {
+      background: linear-gradient(135deg, rgba(0,170,255,0.06), rgba(139,92,246,0.06));
+      border: 1px dashed rgba(0,170,255,0.3);
+      border-radius: var(--radius);
+      padding: 3rem;
+      text-align: center;
+    }
+
+    .review-cta .cta-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+    .review-cta h3 { margin-bottom: 0.6rem; font-size: 1.4rem; }
+    .review-cta p  { color: var(--text-muted); max-width: 460px; margin: 0 auto 1.75rem; font-size: 0.9rem; }
+
+    /* ── REVIEW FORM (backend-ready) ── */
+    .review-form-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .review-form-wrap h3 { margin-bottom: 0.4rem; }
+    .review-form-wrap > p { color: var(--text-muted); font-size: 0.875rem; margin-bottom: 2rem; }
+
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group  { display: flex; flex-direction: column; gap: 0.45rem; margin-bottom: 1.1rem; }
+
+    label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.3px; }
+
+    input, textarea, select {
+      background: rgba(5,10,20,0.6);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: var(--font);
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(0,170,255,0.1);
+    }
+
+    textarea { min-height: 110px; resize: vertical; }
+    select option { background: #0d1626; }
+
+    .star-picker {
+      display: flex;
+      gap: 0.35rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .star-picker span {
+      color: var(--border);
+      transition: color 0.15s;
+      user-select: none;
+    }
+
+    .star-picker span.active,
+    .star-picker span:hover,
+    .star-picker:hover span { color: #f59e0b; }
+
+    .star-picker span:hover ~ span { color: var(--border) !important; }
+
+    .submit-btn {
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--gradient);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: all 0.25s;
+    }
+
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,170,255,0.35); }
+
+    /* ── CTA BAND ── */
+    .cta-band {
+      background: linear-gradient(135deg, rgba(0,170,255,0.07), rgba(139,92,246,0.07));
+      border-top: 1px solid var(--border);
+      padding: 80px 5%;
+      text-align: center;
+    }
+    .cta-band h2 { margin-bottom: 1rem; }
+    .cta-band p  { color: var(--text-muted); max-width: 460px; margin: 0 auto 2rem; }
+
+    @media (max-width: 800px) {
+      .testi-grid { grid-template-columns: 1fr; }
+      .form-row-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><div class="logo-accent"></div>EA</a>
+    <div class="nav-links" id="navLinks">
+      <a href="../index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="testimonials.html" class="active">Testimonials</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="contact.html" class="btn btn-primary" style="margin-left:0.5rem;">Get Started</a>
+    </div>
+    <div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+
+  <!-- HERO -->
+  <section class="testi-hero">
+    <div class="orb orb-blue"></div>
+    <div class="orb orb-purple"></div>
+    <div class="section-label">Client Stories</div>
+    <h1>What People Are <span class="gradient-text">Saying</span></h1>
+    <p>We're just getting started — and so are the results. Here's what our early clients have experienced working with EA Enterprises.</p>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section style="padding: 10px 5% 80px;">
+    <div class="container">
+      <div class="testi-grid">
+
+        <div class="testi-card highlight fade-up">
+          <div class="stars">★★★★★</div>
+          <div class="quote-mark">"</div>
+          <div class="testi-text">The automation EA Enterprises built for us handles everything we used to do manually every morning. It just runs. That alone freed up two hours a day — every single day.</div>
+          <div class="testi-author">
+            <div class="author-initials" style="background:linear-gradient(135deg,#00aaff,#8b5cf6);">MR</div>
+            <div>
+              <div class="author-name">Marcus R.</div>
+              <div class="author-role">Small Business Owner</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card fade-up fade-up-delay-1">
+          <div class="stars">★★★★★</div>
+          <div class="quote-mark">"</div>
+          <div class="testi-text">I came in with a vague idea and left with a real plan. The strategy session was more valuable than I expected — I had 3 quick wins identified before we even started building anything.</div>
+          <div class="testi-author">
+            <div class="author-initials" style="background:linear-gradient(135deg,#06b6d4,#00aaff);">SK</div>
+            <div>
+              <div class="author-name">Sofia K.</div>
+              <div class="author-role">Founder, Digital Agency</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card fade-up fade-up-delay-2">
+          <div class="stars">★★★★★</div>
+          <div class="quote-mark">"</div>
+          <div class="testi-text">Simple, professional, and delivered on time. No bloated features I didn't need — just exactly what I asked for, built well and explained clearly. Exactly how it should work.</div>
+          <div class="testi-author">
+            <div class="author-initials" style="background:linear-gradient(135deg,#8b5cf6,#06b6d4);">DJ</div>
+            <div>
+              <div class="author-name">David J.</div>
+              <div class="author-role">Operations Manager</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- LEAVE A REVIEW -->
+  <section style="background: var(--bg-card); padding: 80px 5%;">
+    <div class="container">
+      <div class="section-header fade-up" style="margin-bottom:2.5rem;">
+        <div class="section-label">Share Your Experience</div>
+        <h2>Worked with us? <span class="gradient-text">Tell us how it went.</span></h2>
+        <p>Your honest feedback helps us improve and helps others know what to expect.</p>
+      </div>
+
+      <div class="review-form-wrap fade-up">
+        <h3>Leave a Review</h3>
+        <p>Takes about 2 minutes. We read every single one.</p>
+
+        <form id="reviewForm" onsubmit="submitReview(event)" novalidate>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="rName">Your Name *</label>
+              <input type="text" id="rName" name="name" placeholder="Jane Smith" required />
+            </div>
+            <div class="form-group">
+              <label for="rRole">Your Role / Company</label>
+              <input type="text" id="rRole" name="role" placeholder="CEO, Acme Inc." />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="rService">Which service did we help with?</label>
+            <select id="rService" name="service">
+              <option value="" disabled selected>Select a service…</option>
+              <option value="automation">AI Workflow Automation</option>
+              <option value="website">Website Development</option>
+              <option value="agent">Custom AI Agent</option>
+              <option value="data">Data Intelligence</option>
+              <option value="consulting">Strategy & Consulting</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Your Rating *</label>
+            <div class="star-picker" id="starPicker">
+              <span data-val="1">★</span>
+              <span data-val="2">★</span>
+              <span data-val="3">★</span>
+              <span data-val="4">★</span>
+              <span data-val="5">★</span>
+            </div>
+            <input type="hidden" id="rRating" name="rating" value="" />
+          </div>
+
+          <div class="form-group">
+            <label for="rMessage">Your Review *</label>
+            <textarea id="rMessage" name="message" placeholder="What was your experience like? What changed for your business?" required></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">Submit Review →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-band">
+    <div class="container">
+      <div class="section-label" style="justify-content:center;">Ready to start?</div>
+      <h2>Become our <span class="gradient-text">next success story</span></h2>
+      <p>Book a free discovery call and let's build something that gets results from day one.</p>
+      <a href="contact.html" class="btn btn-primary btn-lg">Book Free Discovery Call →</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="nav-logo" style="font-size:1.3rem;"><div class="logo-accent" style="height:22px;"></div>EA</div>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-copy">© 2026 EA Enterprises. All rights reserved.</div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="../js/main.js"></script>
+<script src="../js/chatbot.js"></script>
+<script>
+  /* Review form submission */
+  async function submitReview(e) {
+    e.preventDefault();
+    const form = document.getElementById('reviewForm');
+    const btn  = form.querySelector('.submit-btn');
+
+    const name    = document.getElementById('rName').value.trim();
+    const message = document.getElementById('rMessage').value.trim();
+    const rating  = document.getElementById('rRating').value;
+
+    if (!name || !message) {
+      if (!name)    document.getElementById('rName').style.borderColor    = '#f87171';
+      if (!message) document.getElementById('rMessage').style.borderColor = '#f87171';
+      return;
+    }
+
+    btn.textContent = 'Submitting...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('https://ea-agency-backend.onrender.com/api/review', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          role:    document.getElementById('rRole').value.trim(),
+          service: document.getElementById('rService').value,
+          rating:  rating || 5,
+          message,
+        }),
+      });
+      if (!res.ok) throw new Error('Failed');
+      form.innerHTML = `
+        <div style="text-align:center;padding:2rem;">
+          <div style="font-size:2.5rem;margin-bottom:1rem;">🙏</div>
+          <h3 style="margin-bottom:0.5rem;">Thank you!</h3>
+          <p style="color:var(--text-muted);">Your review has been submitted and will appear once approved.</p>
+        </div>`;
+    } catch {
+      btn.textContent = 'Submit Review →';
+      btn.disabled = false;
+      alert('Something went wrong. Please try again.');
+    }
+  }
+
+  /* Star picker */
+  const stars = document.querySelectorAll('#starPicker span');
+  const ratingInput = document.getElementById('rRating');
+  let selected = 0;
+
+  stars.forEach(star => {
+    star.addEventListener('click', () => {
+      selected = parseInt(star.dataset.val);
+      ratingInput.value = selected;
+      stars.forEach(s => s.classList.toggle('active', parseInt(s.dataset.val) <= selected));
+    });
+  });
+</script>
+</body>
+</html>

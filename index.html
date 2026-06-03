@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EA Enterprises — AI Agency</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .hero {
+      position: relative;
+      min-height: calc(100vh - var(--nav-h));
+      display: flex;
+      align-items: center;
+      padding: 80px 5%;
+      overflow: hidden;
+    }
+    .hero .orb-blue  { top: -100px; right: -100px; }
+    .hero .orb-purple { bottom: -150px; left: -80px; }
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .hero-content { z-index: 1; }
+    .hero-content h1 { margin: 1rem 0 1.5rem; }
+    .hero-content p { color: var(--text-muted); font-size: 1.1rem; max-width: 480px; margin-bottom: 2.5rem; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-stats { display: flex; gap: 2.5rem; margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .stat-num { font-size: 2rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+    .hero-visual { display: flex; justify-content: center; align-items: center; z-index: 1; }
+    .ai-globe { position: relative; width: 380px; height: 380px; animation: float 6s ease-in-out infinite; }
+    .globe-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(0, 170, 255, 0.3); }
+    .globe-core { position: absolute; inset: 60px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #1a3a6e, #050a14); border: 2px solid rgba(0, 170, 255, 0.4); box-shadow: 0 0 60px rgba(0, 170, 255, 0.25), inset 0 0 60px rgba(0, 170, 255, 0.1); display: flex; align-items: center; justify-content: center; font-size: 4.5rem; }
+    .ring-1 { inset: 30px; animation: spin 12s linear infinite; }
+    .ring-2 { inset: 10px; animation: spin 18s linear infinite reverse; border-style: dashed; }
+    .ring-3 { inset: 0; animation: spin 25s linear infinite; border-color: rgba(139, 92, 246, 0.2); }
+    .dot { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-blue); box-shadow: 0 0 10px var(--accent-blue); }
+    .dot-1 { top: -5px; left: 50%; transform: translateX(-50%); }
+    .dot-2 { bottom: -5px; left: 50%; transform: translateX(-50%); background: var(--accent-purple); box-shadow: 0 0 10px var(--accent-purple); }
+    .dot-3 { left: -5px; top: 50%; transform: translateY(-50%); background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan); }
+    .dot-4 { right: -5px; top: 50%; transform: translateY(-50%); }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .features { position: relative; overflow: hidden; background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-card) 100%); }
+    .feature-card .card-icon { background: linear-gradient(135deg, rgba(0,170,255,0.15), rgba(139,92,246,0.15)); }
+    .feature-card h3 { margin-bottom: 0.75rem; }
+    .feature-card p { color: var(--text-muted); font-size: 0.9rem; }
+    .process-steps { display: flex; flex-direction: column; gap: 0; max-width: 800px; margin: 0 auto; }
+    .step { display: grid; grid-template-columns: 80px 1fr; gap: 2rem; align-items: start; padding: 2.5rem 0; border-bottom: 1px solid var(--border); }
+    .step:last-child { border-bottom: none; }
+    .step-num { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--accent-blue); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 800; color: var(--accent-blue); flex-shrink: 0; background: rgba(0, 170, 255, 0.08); }
+    .step-body h3 { margin-bottom: 0.5rem; }
+    .step-body p { color: var(--text-muted); font-size: 0.92rem; }
+    .cta-band { background: linear-gradient(135deg, rgba(0,170,255,0.08), rgba(139,92,246,0.08)); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 80px 5%; text-align: center; }
+    .cta-band h2 { margin-bottom: 1rem; }
+    .cta-band p { color: var(--text-muted); max-width: 500px; margin: 0 auto 2rem; }
+    @media (max-width: 768px) { .hero-inner { grid-template-columns: 1fr; } .hero-visual { display: none; } .hero-stats { gap: 1.5rem; } }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><div class="logo-accent"></div>EA</a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="active">Home</a>
+      <a href="pages/services.html">Services</a>
+      <a href="pages/testimonials.html">Testimonials</a>
+      <a href="pages/about.html">About</a>
+      <a href="pages/contact.html">Contact</a>
+      <a href="pages/contact.html" class="btn btn-primary" style="margin-left:0.5rem;">Get Started</a>
+    </div>
+    <div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <section class="hero">
+    <div class="orb orb-blue"></div>
+    <div class="orb orb-purple"></div>
+    <div class="hero-inner">
+      <div class="hero-content fade-up">
+        <h1>We Build <span class="gradient-text">Intelligent Systems</span> That Scale Your Business</h1>
+        <p>EA Enterprises designs and deploys cutting-edge AI systems and automated workflows that turn complex business challenges into competitive advantages.</p>
+        <div class="hero-cta">
+          <a href="pages/contact.html" class="btn btn-primary btn-lg">Start Your Project →</a>
+          <a href="pages/services.html" class="btn btn-outline btn-lg">View Services</a>
+        </div>
+      </div>
+      <div class="hero-visual fade-up fade-up-delay-2">
+        <div class="ai-globe">
+          <div class="globe-ring ring-3"><div class="dot dot-3"></div><div class="dot dot-4"></div></div>
+          <div class="globe-ring ring-2"></div>
+          <div class="globe-ring ring-1"><div class="dot dot-1"></div><div class="dot dot-2"></div></div>
+          <div class="globe-core">🧠</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-label">What We Do</div>
+        <h2>AI solutions built for <span class="gradient-text">real results</span></h2>
+        <p>We don't just build technology — we craft intelligent systems that integrate seamlessly into your business and deliver measurable impact from day one.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card feature-card fade-up fade-up-delay-1"><div class="card-icon">⚡</div><h3>AI Automation</h3><p>End-to-end workflow automation using n8n, Make, and custom AI agents that eliminate repetitive tasks and free your team for high-value work.</p></div>
+        <div class="card feature-card fade-up fade-up-delay-2"><div class="card-icon">🌐</div><h3>Smart Websites</h3><p>Modern, conversion-optimized websites with built-in AI features — chatbots, personalization, and real-time analytics dashboards.</p></div>
+        <div class="card feature-card fade-up fade-up-delay-3"><div class="card-icon">🤖</div><h3>Custom AI Agents</h3><p>Purpose-built AI agents that handle research, customer service, data analysis, and decision-making autonomously around the clock.</p></div>
+        <div class="card feature-card fade-up fade-up-delay-1"><div class="card-icon">📊</div><h3>Data Intelligence</h3><p>Transform raw data into actionable insights with AI-powered analytics, reporting pipelines, and predictive modeling.</p></div>
+        <div class="card feature-card fade-up fade-up-delay-2"><div class="card-icon">🔗</div><h3>Systems Integration</h3><p>Seamlessly connect your existing tools — CRMs, ERPs, databases, and APIs — into one intelligent, automated ecosystem.</p></div>
+        <div class="card feature-card fade-up fade-up-delay-3"><div class="card-icon">🛡️</div><h3>AI Strategy & Consulting</h3><p>Not sure where to start? We audit your operations and deliver a clear AI roadmap with prioritized, high-ROI opportunities.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 90px 5%;">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-label">Our Process</div>
+        <h2>From idea to <span class="gradient-text">live system</span></h2>
+        <p>A proven 4-step process that gets your AI solution deployed fast, without the usual agency delays.</p>
+      </div>
+      <div class="process-steps">
+        <div class="step fade-up"><div class="step-num">01</div><div class="step-body"><h3>Discovery & Audit</h3><p>We analyze your current workflows, tools, and goals to identify exactly where AI will drive the most impact.</p></div></div>
+        <div class="step fade-up fade-up-delay-1"><div class="step-num">02</div><div class="step-body"><h3>Strategy & Architecture</h3><p>We design your AI system architecture, select the right tools and models, and map out the full implementation plan.</p></div></div>
+        <div class="step fade-up fade-up-delay-2"><div class="step-num">03</div><div class="step-body"><h3>Build & Integrate</h3><p>Our team builds, tests, and integrates your AI system with weekly progress updates so you always know where things stand.</p></div></div>
+        <div class="step fade-up fade-up-delay-3"><div class="step-num">04</div><div class="step-body"><h3>Launch & Optimize</h3><p>We go live with ongoing monitoring and optimization. Your system gets smarter over time — and we're always here for support.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-band">
+    <div class="container">
+      <div class="section-label" style="justify-content:center;">Ready to start?</div>
+      <h2>Let's build your <span class="gradient-text">AI advantage</span></h2>
+      <p>Book a free discovery call and we'll map out exactly how AI can transform your business in 30 days.</p>
+      <a href="pages/contact.html" class="btn btn-primary btn-lg">Book Free Discovery Call →</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="nav-logo" style="font-size:1.3rem;"><div class="logo-accent" style="height:22px;"></div>EA</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="pages/services.html">Services</a>
+        <a href="pages/testimonials.html">Testimonials</a>
+        <a href="pages/about.html">About</a>
+        <a href="pages/contact.html">Contact</a>
+      </div>
+      <div class="footer-copy">© 2026 EA Enterprises. All rights reserved.</div>
+    </div>
+  </footer>
+</div>
+<script src="js/main.js"></script>
+<script src="js/chatbot.js"></script>
+</body>
+</html>
