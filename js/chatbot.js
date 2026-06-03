@@ -287,6 +287,24 @@ const sendBtn  = document.getElementById('ea-chat-send');
 
 let isOpen = false;
 
+const STORAGE_MESSAGES_KEY = 'ea_chat_messages';
+const STORAGE_OPEN_KEY     = 'ea_chat_open';
+
+function saveMessages() {
+  const msgs = [...messages.querySelectorAll('.ea-msg')].map(el => ({
+    role: el.classList.contains('user') ? 'user' : 'bot',
+    text: el.textContent,
+  }));
+  localStorage.setItem(STORAGE_MESSAGES_KEY, JSON.stringify(msgs));
+}
+
+function restoreMessages() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_MESSAGES_KEY) || '[]');
+    saved.forEach(m => m.role === 'user' ? addUserMessage(m.text) : addBotMessage(m.text));
+  } catch {}
+}
+
 // ── Open / Close ───────────────────────────────────────────────────
 
 function openChat() {
@@ -294,8 +312,13 @@ function openChat() {
   toggle.innerHTML = '<div class="pulse"></div>✕';
   isOpen = true;
   if (messages.children.length === 0) {
-    addBotMessage("Hi! 👋 I'm the EA Assistant. I can answer questions about our services, pricing, and how we can help your business. What's on your mind?");
+    restoreMessages();
+    if (messages.children.length === 0) {
+      addBotMessage("Hi! 👋 I'm the EA Assistant. I can answer questions about our services, pricing, and how we can help your business. What's on your mind?");
+      saveMessages();
+    }
   }
+  localStorage.setItem(STORAGE_OPEN_KEY, '1');
   setTimeout(() => input.focus(), 100);
 }
 
@@ -303,6 +326,7 @@ function closeChat() {
   panel.classList.add('ea-chat-hidden');
   toggle.innerHTML = '<div class="pulse"></div>💬';
   isOpen = false;
+  localStorage.removeItem(STORAGE_OPEN_KEY);
 }
 
 toggle.addEventListener('click', () => isOpen ? closeChat() : openChat());
@@ -316,6 +340,7 @@ function addBotMessage(text) {
   el.textContent = text;
   messages.appendChild(el);
   messages.scrollTop = messages.scrollHeight;
+  saveMessages();
 }
 
 function addUserMessage(text) {
@@ -324,6 +349,7 @@ function addUserMessage(text) {
   el.textContent = text;
   messages.appendChild(el);
   messages.scrollTop = messages.scrollHeight;
+  saveMessages();
 }
 
 function showTyping() {
@@ -402,3 +428,6 @@ async function sendMessage() {
 
 sendBtn.addEventListener('click', sendMessage);
 input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
+
+// Auto-reopen chat if it was open before page navigation
+if (localStorage.getItem(STORAGE_OPEN_KEY)) openChat();

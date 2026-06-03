@@ -28,6 +28,8 @@ async function handleSubmit(e) {
 
   try {
     const data = Object.fromEntries(new FormData(form).entries());
+    data.pain_points = [...form.querySelectorAll('input[name="pain[]"]:checked')].map(cb => cb.value);
+    delete data['pain[]'];
     const res  = await fetch('https://ea-agency-backend.onrender.com/api/contact', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
