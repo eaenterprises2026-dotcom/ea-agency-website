@@ -251,8 +251,11 @@
         fetch(`${API}/reviews`, { headers: authHeaders() }),
       ]);
 
-      if (lRes.status === 401) {
-        logout();
+      if (lRes.status === 401) { logout(); return; }
+
+      if (!lRes.ok || !rRes.ok) {
+        const err = await (lRes.ok ? rRes : lRes).json().catch(() => ({}));
+        alert('Backend error: ' + (err.error || lRes.status));
         return;
       }
 
