@@ -295,12 +295,12 @@ function saveMessages() {
     role: el.classList.contains('user') ? 'user' : 'bot',
     text: el.textContent,
   }));
-  localStorage.setItem(STORAGE_MESSAGES_KEY, JSON.stringify(msgs));
+  sessionStorage.setItem(STORAGE_MESSAGES_KEY, JSON.stringify(msgs));
 }
 
 function restoreMessages() {
   try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_MESSAGES_KEY) || '[]');
+    const saved = JSON.parse(sessionStorage.getItem(STORAGE_MESSAGES_KEY) || '[]');
     saved.forEach(m => m.role === 'user' ? addUserMessage(m.text) : addBotMessage(m.text));
   } catch {}
 }
@@ -318,7 +318,7 @@ function openChat() {
       saveMessages();
     }
   }
-  localStorage.setItem(STORAGE_OPEN_KEY, '1');
+  sessionStorage.setItem(STORAGE_OPEN_KEY, '1');
   setTimeout(() => input.focus(), 100);
 }
 
@@ -326,7 +326,7 @@ function closeChat() {
   panel.classList.add('ea-chat-hidden');
   toggle.innerHTML = '<div class="pulse"></div>💬';
   isOpen = false;
-  localStorage.removeItem(STORAGE_OPEN_KEY);
+  sessionStorage.removeItem(STORAGE_OPEN_KEY);
 }
 
 toggle.addEventListener('click', () => isOpen ? closeChat() : openChat());
@@ -393,9 +393,9 @@ async function sendMessage() {
       // ── Real backend call (active when API_ENDPOINT is set) ──
       // Generate or retrieve session ID
       if (!window._eaSessionId) {
-        window._eaSessionId = localStorage.getItem('ea_session') ||
+        window._eaSessionId = sessionStorage.getItem('ea_session') ||
           'sess_' + Math.random().toString(36).slice(2) + Date.now();
-        localStorage.setItem('ea_session', window._eaSessionId);
+        sessionStorage.setItem('ea_session', window._eaSessionId);
       }
 
       const res  = await fetch(API_ENDPOINT, {
@@ -430,4 +430,4 @@ sendBtn.addEventListener('click', sendMessage);
 input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
 
 // Auto-reopen chat if it was open before page navigation
-if (localStorage.getItem(STORAGE_OPEN_KEY)) openChat();
+if (sessionStorage.getItem(STORAGE_OPEN_KEY)) openChat();
