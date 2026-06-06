@@ -196,20 +196,41 @@
 
 <script>
   const API = 'https://ea-agency-backend.onrender.com/api/admin';
-  let password = '';
 
-  function login() {
+  async function login() {
     const p = document.getElementById('passInput').value;
     if (!p) return;
-    password = p;
-    loadAll();
+    try {
+      const res = await fetch('https://ea-agency-backend.onrender.com/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: p }),
+      });
+      if (res.status === 401) {
+        document.getElementById('loginErr').textContent = 'Incorrect password. Try again.';
+        document.getElementById('loginErr').style.display = 'block';
+        return;
+      }
+      const { token } = await res.json();
+      sessionStorage.setItem('ea_admin_token', token);
+      loadAll();
+    } catch {
+      document.getElementById('loginErr').textContent = 'Could not reach server.';
+      document.getElementById('loginErr').style.display = 'block';
+    }
   }
 
   function logout() {
-    password = '';
+    sessionStorage.removeItem('ea_admin_token');
     document.getElementById('dashboard').style.display = 'none';
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('passInput').value = '';
+  }
+
+  function authHeaders() {
+    return {
+      'Authorization': 'Bearer ' + sessionStorage.getItem('ea_admin_token'),
+    };
   }
 
   function showTab(tab, btn) {
@@ -226,12 +247,12 @@
   async function loadAll() {
     try {
       const [lRes, rRes] = await Promise.all([
-        fetch(`${API}/leads`,   { headers: { 'x-admin-password': password } }),
-        fetch(`${API}/reviews`, { headers: { 'x-admin-password': password } }),
+        fetch(`${API}/leads`,   { headers: authHeaders() }),
+        fetch(`${API}/reviews`, { headers: authHeaders() }),
       ]);
 
       if (lRes.status === 401) {
-        document.getElementById('loginErr').style.display = 'block';
+        logout();
         return;
       }
 
@@ -296,7 +317,7 @@
   async function updateLead(id, status) {
     await fetch(`${API}/leads/${id}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+      headers: { 'Content-Type': 'application/json', ...authHeaders() },
       body: JSON.stringify({ status }),
     });
   }
@@ -304,14 +325,14 @@
   async function approveReview(id, approved) {
     await fetch(`${API}/reviews/${id}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+      headers: { 'Content-Type': 'application/json', ...authHeaders() },
       body: JSON.stringify({ approved }),
     });
     loadAll();
   }
 
   // Auto-refresh every 60 seconds when logged in
-  setInterval(() => { if (password) loadAll(); }, 60000);
+  setInterval(() => { if (sessionStorage.getItem('ea_admin_token')) loadAll(); }, 60000);
 </script>
 </body>
 </html>
