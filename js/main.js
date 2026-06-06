@@ -21,6 +21,16 @@ async function handleSubmit(e) {
     el.style.borderColor = '';
     if (!el.value.trim()) { el.style.borderColor = '#f87171'; valid = false; }
   });
+
+  const consent = document.getElementById('consent');
+  const consentLabel = document.getElementById('consentLabel');
+  if (consent && !consent.checked) {
+    consentLabel.style.color = '#f87171';
+    valid = false;
+  } else if (consentLabel) {
+    consentLabel.style.color = '';
+  }
+
   if (!valid) return;
 
   btn.textContent = 'Sending...';
